@@ -7,11 +7,11 @@
         <link rel="stylesheet" href="style.css"> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="time-utils.js"></script>
-        <script src="db-functions.js"></script>
-        <script src="gw2-sk.js"></script>
-        <script src="view-utils.js"></script>
-        <script src="item-box.js"></script>
+        <script src="time-utils.js?v=1.0.0"></script>
+        <script src="db-functions.js?v=1.0.0"></script>
+        <script src="gw2-sk.js?v=1.0.0"></script>
+        <script src="view-utils.js?v=1.0.0"></script>
+        <script src="item-box.js?v=1.0.0"></script>
         <script>
             $(document).ready(function() {                
                 var materialIds = [ 
@@ -57,6 +57,7 @@
                         <li><a href="bag">Bag Income</a></li>
                         <li class="active"><a href="material">Material Price</a></li>
                         <li><a href="average">Avgerage Price</a></li>
+                        <li><a href="gem-alert">Gem Alert</a></li>
                     </ul>
                 </div>
             </div>

@@ -19,6 +19,38 @@ var Gw2Sk = (function () {
             callback(null);
         });
     }
+    
+    function getCoinToGemRate(coin, callback) {
+        $.getJSON("https://api.guildwars2.com/v2/commerce/exchange/coins?quantity=" + coin, function(result) {
+            callback(result);
+        }).fail(function() {
+            callback(null);
+        });
+    }
+    
+    function findGemPrice(testCoinsPerGem, gemAmount, callback) {
+        console.log(testCoinsPerGem);
+        getCoinToGemRate(testCoinsPerGem * gemAmount, function(result){
+            if (result != null) {
+                var gemAmountDiff = Math.abs((result.quantity - gemAmount));        
+                if (gemAmountDiff != 0) {
+                    var newTestCoin = Math.round((result.coins_per_gem * gemAmountDiff + testCoinsPerGem)/(gemAmountDiff + 1));
+                    if (newTestCoin < testCoinsPerGem) { 
+                        findGemPrice(newTestCoin, gemAmount, callback);
+                    } else {
+                        callback(newTestCoin * gemAmount);
+                    }
+                } else {
+                    callback(result.coins_per_gem * gemAmount);
+                }
+            }
+            else {
+                const NEW_VALUE_FACTOR = 1.05;
+                findGemPrice(Math.round(testCoinsPerGem * 1.05), gemAmount, callback);
+            }
+            
+        });        
+    }
         
     return {
         
@@ -133,6 +165,11 @@ var Gw2Sk = (function () {
                     });
                 });
             });            
-        }      
+        },
+
+        getGemPrice: function(gemAmount, callback) {
+            const START_COINS_PER_GEM = 100000;
+            findGemPrice(START_COINS_PER_GEM, gemAmount, callback);            
+        }
     }
 }());

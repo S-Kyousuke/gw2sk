@@ -3,6 +3,7 @@ img.coin {
     width: 0.8em;
     height: 0.8em;
     margin: 0em 0.3em 0em 0.3em;
+    vertical-align: middle;
 }
 
 img.item {
@@ -50,5 +51,29 @@ div.item-box {
 }
 
 .full-width {
-    width: 100%
+    width: 100%;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.control-label--gem-alert, .form-group--gem-alert {
+    margin-right: 1em;     
+}
+
+.icon-gem {
+    background-image: url("images/gem.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.middle-vert {    
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
 }

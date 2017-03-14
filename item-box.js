@@ -57,19 +57,19 @@ class ItemPriceBox extends ItemBox {
     }
     
     setPrice(value) {
-        var newPriceRow = $('<tr><td>Current Price:</td><td>' + ViewUtils.getCoinValueDivString(value, false)  + '</td></tr>');
+        var newPriceRow = $('<tr><td>Current Price:</td><td>' + ViewUtils.getCoinValueDivTag(value, false)  + '</td></tr>');
         this.priceRow.replaceWith(newPriceRow);
         this.priceRow = newPriceRow;
     }
     
     setDayAvgPrice(value) {
-        var newDayAvgPriceRow = $('<tr><td>Day Avg Price:</td><td>' + ViewUtils.getCoinValueDivString(value, false) + '</td></tr>');
+        var newDayAvgPriceRow = $('<tr><td>Day Avg Price:</td><td>' + ViewUtils.getCoinValueDivTag(value, false) + '</td></tr>');
         this.dayAvgPriceRow.replaceWith(newDayAvgPriceRow);
         this.dayAvgPriceRow = newDayAvgPriceRow;        
     }
     
     setWeekAvgPrice(value) {
-        var newWeekAvgPriceRow = $('<tr><td>Week Avg Price:</td><td>' + ViewUtils.getCoinValueDivString(value, false) + '</td></tr>');
+        var newWeekAvgPriceRow = $('<tr><td>Week Avg Price:</td><td>' + ViewUtils.getCoinValueDivTag(value, false) + '</td></tr>');
         this.weekAvgPriceRow.replaceWith(newWeekAvgPriceRow)
         this.weekAvgPriceRow = newWeekAvgPriceRow;
     }
@@ -90,19 +90,19 @@ class ItemIncomeBox extends ItemBox {
     }
     
     setIncome(value) {
-        var newIncomeRow = $('<tr><td>Current Income:</td><td>' + ViewUtils.getCoinValueDivString(value, false)  + '</td></tr>');
+        var newIncomeRow = $('<tr><td>Current Income:</td><td>' + ViewUtils.getCoinValueDivTag(value, false)  + '</td></tr>');
         this.incomeRow.replaceWith(newIncomeRow);
         this.incomeRow = newIncomeRow;
     }
     
     setDayAvgIncome(value) {
-        var newDayAvgIncomeRow = $('<tr><td>Day Avg Income:</td><td>' + ViewUtils.getCoinValueDivString(value, false) + '</td></tr>');
+        var newDayAvgIncomeRow = $('<tr><td>Day Avg Income:</td><td>' + ViewUtils.getCoinValueDivTag(value, false) + '</td></tr>');
         this.dayAvgIncomeRow.replaceWith(newDayAvgIncomeRow);
         this.dayAvgIncomeRow = newDayAvgIncomeRow;        
     }
     
     setWeekAvgIncome(value) {
-        var newWeekAvgIncomeRow = $('<tr><td>Week Avg Income:</td><td>' + ViewUtils.getCoinValueDivString(value, false) + '</td></tr>');
+        var newWeekAvgIncomeRow = $('<tr><td>Week Avg Income:</td><td>' + ViewUtils.getCoinValueDivTag(value, false) + '</td></tr>');
         this.weekAvgIncomeRow.replaceWith(newWeekAvgIncomeRow)
         this.weekAvgIncomeRow = newWeekAvgIncomeRow;
     }
