@@ -1,11 +1,5 @@
 var ViewUtils = (function () {
     
-    var CoinType = {
-        GOLD: {name: "gold coin", source: "images/gold_coin.png"},
-        SILVER: {name: "silver coin", source: "images/silver_coin.png"},
-        COPPER: {name: "copper coin", source: "images/copper_coin.png"},
-    };
-    
     function getFillZeroNumber(num, size) {
         var numText = "000000000" + num;
         return numText.substr(numText.length - size);
@@ -40,7 +34,7 @@ var ViewUtils = (function () {
         
             if (gold != 0) {                
                 htmlText.push(getMiddleVertTextTag(gold));
-                htmlText.push(getCoinImageTag(CoinType.GOLD));                
+                htmlText.push(getCoinImageTag(Gw2Sk.CoinType.GOLD));                
             }
                        
             if (silver != 0 || gold != 0) {
@@ -49,13 +43,13 @@ var ViewUtils = (function () {
                 } else {
                     htmlText.push(getMiddleVertTextTag(silver));
                 }
-                htmlText.push(getCoinImageTag(CoinType.SILVER));
+                htmlText.push(getCoinImageTag(Gw2Sk.CoinType.SILVER));
                 
                 htmlText.push(getMiddleVertTextTag(getFillZeroNumber(copper, 2)));
             } else {        
                 htmlText.push(getMiddleVertTextTag(copper));
             }
-            htmlText.push(getCoinImageTag(CoinType.COPPER));
+            htmlText.push(getCoinImageTag(Gw2Sk.CoinType.COPPER));
             
             htmlText.push('</div>');
             return htmlText.join("");

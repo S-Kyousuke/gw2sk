@@ -62,8 +62,24 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0; 
 }
 
-.control-label--gem-alert, .form-group--gem-alert {
+.control-label--gem-alert {
     margin-right: 1em;     
+}
+
+.row--checkbox {
+    margin: 0.5em 0em 0em 0em;
+}
+
+.row--coin-input {
+    margin-right: 0;
+}
+
+.zero-margin {
+    margin: 0em;
+}
+
+.zero-padding {
+    padding: 0em;
 }
 
 .icon-gem {
@@ -72,8 +88,49 @@ input[type=number]::-webkit-outer-spin-button {
     background-position: center center;
 }
 
+.icon-copper-coin {
+    background-image: url("images/copper_coin.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.icon-silver-coin {
+    background-image: url("images/silver_coin.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.icon-gold-coin {
+    background-image: url("images/gold_coin.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.checkbox-inline--last {
+    margin-right: 1em;
+}
+
+.coin-input {
+    padding-right: 0;
+}
+
 .middle-vert {    
     display: inline-block;
     height: 100%;
     vertical-align: middle;
+}
+
+.update-label {
+    display:inline-block;
+    padding-left: 0.75em;
+}
+
+.alert-label {
+    display:inline-block;
+    padding-top: 0.75em;
+}
+
+h3, h4 {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }

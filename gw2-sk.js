@@ -28,31 +28,74 @@ var Gw2Sk = (function () {
         });
     }
     
-    function findGemPrice(testCoinsPerGem, gemAmount, callback) {
-        console.log(testCoinsPerGem);
-        getCoinToGemRate(testCoinsPerGem * gemAmount, function(result){
+    function getGemToCoinRate(gem, callback) {
+        $.getJSON("https://api.guildwars2.com/v2/commerce/exchange/gems?quantity=" + gem, function(result) {
+            callback(result);
+        }).fail(function() {
+            callback(null);
+        });
+    }
+    
+    function findGemPrice(gemQuantity, testCoinsPerGem, callback) {
+        getCoinToGemRate(gemQuantity * testCoinsPerGem, function(result){
             if (result != null) {
-                var gemAmountDiff = Math.abs((result.quantity - gemAmount));        
-                if (gemAmountDiff != 0) {
-                    var newTestCoin = Math.round((result.coins_per_gem * gemAmountDiff + testCoinsPerGem)/(gemAmountDiff + 1));
+                var gemQuantityDiff = Math.abs((result.quantity - gemQuantity));        
+                if (gemQuantityDiff != 0) {
+                    var newTestCoin = Math.round((result.coins_per_gem * gemQuantityDiff + testCoinsPerGem)/(gemQuantityDiff + 1));
                     if (newTestCoin < testCoinsPerGem) { 
-                        findGemPrice(newTestCoin, gemAmount, callback);
+                        findGemPrice(gemQuantity, newTestCoin, callback);
                     } else {
-                        callback(newTestCoin * gemAmount);
+                        callback(newTestCoin * gemQuantity);
                     }
                 } else {
-                    callback(result.coins_per_gem * gemAmount);
+                    callback(result.coins_per_gem * gemQuantity);
                 }
             }
             else {
                 const NEW_VALUE_FACTOR = 1.05;
-                findGemPrice(Math.round(testCoinsPerGem * 1.05), gemAmount, callback);
-            }
-            
+                findGemPrice(Math.round(testCoinsPerGem * 1.05), gemQuantity, callback);
+            }            
         });        
     }
-        
-    return {
+    
+    function findExactGemsPrice(gemQuantity, testCoins, lastChange, lastQuantity, callback) {       
+        getCoinToGemRate(testCoins, function(result){         
+            console.log(testCoins, lastChange);
+            if (result != null) {               
+                if (lastChange == 1 && lastQuantity == (gemQuantity - 1) && result.quantity == gemQuantity) {
+                    callback(testCoins);
+                    return;
+                } else if (lastChange == 1 && lastQuantity == gemQuantity && result.quantity == (gemQuantity - 1)) {
+                    callback(testCoins + 1);
+                    return;
+                }
+                
+                var change;                
+                if ((result.quantity != (gemQuantity - 1) && result.quantity != gemQuantity) || lastQuantity == result.quantity) {
+                    change = Math.floor(lastChange * Math.sqrt(2));
+                } else {
+                    change = Math.max(Math.floor(lastChange / 2), 1);
+                }
+                
+                if (result.quantity < gemQuantity) {  
+                    findExactGemsPrice(gemQuantity, testCoins + change, change, result.quantity, callback);
+                } else if (result.quantity >= gemQuantity) {                    
+                    findExactGemsPrice(gemQuantity, testCoins - change, change, result.quantity, callback);
+                }
+            }
+            else {
+                findExactGemsPrice(gemQuantity, testCoins, lastChange, lastQuantity, callback);
+            }
+        });
+    }
+            
+    return {                 
+    
+        CoinType: {
+            GOLD: {name: "gold coin", source: "images/gold_coin.png"},
+            SILVER: {name: "silver coin", source: "images/silver_coin.png"},
+            COPPER: {name: "copper coin", source: "images/copper_coin.png"},
+        },
         
         getItemName: function(itemId, callback) {
             DbFunctions.call('getItemName', [itemId], function (result) {
@@ -167,9 +210,32 @@ var Gw2Sk = (function () {
             });            
         },
 
-        getGemPrice: function(gemAmount, callback) {
-            const START_COINS_PER_GEM = 100000;
-            findGemPrice(START_COINS_PER_GEM, gemAmount, callback);            
+        getGemPrice: function(gemQuantity, callback) {
+            getGemToCoinRate(gemQuantity, function(result) {              
+                findGemPrice(gemQuantity, Math.round((result.quantity/0.85)/0.85), callback);     
+            });       
+        },
+        
+        getExactGemPrice: function(gemQuantity, callback) {
+            Gw2Sk.getGemPrice(gemQuantity, function(price) {
+                findExactGemsPrice(gemQuantity, price, Math.round((price/gemQuantity)/2), gemQuantity, callback);
+            });
+        },
+        
+        isInt: function(value) {
+            return !isNaN(value) && (function(x) { return (x | 0) === x; }) (parseFloat(value))
+        },
+        
+        intervalTask: function(intervalMs, count, intervalCallback) {
+            var callCount = 0;
+            var timer = setInterval(function() {
+                callCount++;            
+                intervalCallback(callCount);
+                if (callCount == count) {
+                    clearInterval(timer);
+                } 
+            }, intervalMs);
+            return timer;
         }
     }
 }());
